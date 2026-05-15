@@ -1,0 +1,5 @@
+.container { padding: 100px 10%; }
+.content { display: flex; gap: 40px; margin-top: 30px; }
+.text { line-height: 1.6; font-size: 1.1rem; }
+.text ul { list-style: none; margin-top: 20px; }
+.text li { margin-bottom: 10px; color: #2563eb; font-weight: 600; }
