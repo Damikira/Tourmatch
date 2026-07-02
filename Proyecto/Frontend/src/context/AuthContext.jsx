@@ -10,7 +10,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        localStorage.removeItem('user');
+      }
     }
     setLoading(false);
   }, []);
@@ -30,7 +34,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.mensaje || "Error al registrar usuario");
       }
 
-      // IMPORTANTE: Al registrar, también guardamos la sesión automáticamente
       const userData = {
         email: email,
         token: data.token,
@@ -57,29 +60,43 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
-
+      // 🌟 Si la respuesta falló (401, 400, etc.)
       if (!response.ok) {
-        throw new Error(data.mensaje || "Credenciales incorrectas");
+        let mensajeError = "Credenciales incorrectas";
+        try {
+          const textoPlano = await response.text();
+          if (textoPlano && !textoPlano.startsWith("<!DOCTYPE")) { 
+            // Evitamos leer HTML de error de Render como texto válido
+            mensajeError = textoPlano;
+          }
+        } catch (e) {
+          // Mantiene el error por defecto si falla al leer text()
+        }
+        
+        return { 
+          success: false, 
+          message: mensajeError, 
+          status: response.status 
+        };
       }
 
-      // Capturamos los 4 campos que configuramos en el AuthService.java
+      // Si todo sale bien (200 OK), procesamos el JSON con total seguridad
+      const data = await response.json();
+
       const userData = {
-        email: email, // El email que usó para entrar
+        email: email,
         token: data.token,
         nombre: data.nombre,
-        rol: data.rol // "CONDUCTOR" o "TURISTA" (viene del Enum de Java)
+        rol: data.rol
       };
 
-      // Guardamos en el estado global y en el almacenamiento local
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       
-      // Retornamos éxito y el rol para que el componente Login navegue
       return { success: true, rol: data.rol };
     } catch (error) {
       console.error("Error en login:", error);
-      return { success: false, message: error.message };
+      return { success: false, message: "Error de conexión o credenciales incorrectas" };
     }
   };
 
