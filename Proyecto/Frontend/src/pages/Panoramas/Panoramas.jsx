@@ -29,7 +29,7 @@ const Panoramas = () => {
       title: "Valparaíso y Viña del Mar: Costa y Color",
       price: "75000",
       duration: "Full Day (10 hrs)",
-      image: "https://images.unsplash.com/photo-1594897030264-ab7d87efc473?q=80&w=800&auto=format&fit=crop",
+      image: "https://media.gettyimages.com/id/2075370230/es/foto/vista-de-dron-en-la-costa-del-pac%C3%ADfico-en-conc%C3%B3n-chile.jpg?s=2048x2048&w=gi&k=20&c=00HL29sV7SEfms1tLMBzV_BJ-POw3mDZ1eoR2zP7MzQ=",
       description: "Reloj de Flores • Paseo Atkinson • Puerto de Valparaíso",
       waypoints: [
         { direccion: "Reloj de Flores, Viña del Mar", orden: 1 },
@@ -42,7 +42,7 @@ const Panoramas = () => {
       title: "Santiago Moderno: Vistas y Altura",
       price: "45000",
       duration: "Full Day (8 hrs)",
-      image: "https://images.unsplash.com/photo-1590055531920-0081e749e7bd?auto=format&fit=crop&q=80&w=800",
+      image: "https://media.gettyimages.com/id/1496267256/es/foto/sky-costanera-santiago-de-chile.jpg?s=2048x2048&w=gi&k=20&c=8lYMiYJT8bo7cWRzl-Cz99-zNN8Mbwf8pEy0U9hTnEc=",
       description: "Parque Bicentenario • Sky Costanera • Barrio El Golf",
       waypoints: [
         { direccion: "Parque Bicentenario, Vitacura", orden: 1 },
@@ -68,7 +68,7 @@ const Panoramas = () => {
       title: "Aventura en la Cordillera: Farellones",
       price: "80000",
       duration: "Full Day (8 hrs)",
-      image: "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=800&auto=format&fit=crop",
+      image: "https://media.gettyimages.com/id/991112526/es/foto/sunset-farellones-chile.jpg?s=2048x2048&w=gi&k=20&c=j7PD5K7xHkjT0ueZx1eUm1PX6YO4cNzu6AsOO1koOU8=",
       description: "Camino a la Montaña • Pueblo de Farellones • Miradores",
       waypoints: [
         { direccion: "Curva 1, Camino a Farellones", orden: 1 },
@@ -81,7 +81,7 @@ const Panoramas = () => {
       title: "Santiago Patrimonial e Histórico",
       price: "35000",
       duration: "Media Jornada (5 hrs)",
-      image: "https://images.unsplash.com/photo-1578922756046-7a72680f729b?q=80&w=800&auto=format&fit=crop",
+      image: "https://media.gettyimages.com/id/103819231/es/foto/palacio-de-la-moneda-and-statue-of-arturo-alessandri-palma-illuminated-at-dusk.jpg?s=2048x2048&w=gi&k=20&c=WU69772Wr7zJdqvy_XCLM9WaeWjjnN1Nciw30WYXnRY=",
       description: "Palacio de La Moneda • Plaza de Armas • Cerro San Cristóbal",
       waypoints: [
         { direccion: "Palacio de La Moneda", orden: 1 },
@@ -145,7 +145,7 @@ const Panoramas = () => {
       setLoadingId(ruta.id);
       setMensaje({ texto: '', tipo: '' });
 
-      const response = await fetch("https://tourmatch-dw83.onrender.com/api/reservas/crear", {
+      const response = await fetch("https://tourmatchterminar-1.onrender.com/api/reservas/crear", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
