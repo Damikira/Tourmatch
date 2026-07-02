@@ -17,22 +17,39 @@ const Login = () => {
     setError('');
     setLoading(true);
 
-    // Llamamos a la función login del AuthContext
-    const result = await login(email, password);
+    try {
+      // Llamamos a la función login del AuthContext
+      const result = await login(email, password);
 
-    if (result.success) {
-      // Redirección inteligente basada en el ROL que devolvió el servidor
-      if (result.rol === 'CONDUCTOR') {
-        navigate('/dashboard-conductor');
-      } else if (result.rol === 'TURISTA') {
-        navigate('/dashboard-turista');
+      // Si el login fue exitoso
+      if (result && result.success) {
+        if (result.rol === 'CONDUCTOR') {
+          navigate('/dashboard-conductor');
+        } else if (result.rol === 'TURISTA') {
+          navigate('/dashboard-turista');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
-        // Por si acaso tienes un dashboard general o un error de rol
-        navigate('/dashboard');
+        // 🌟 CORREGIDO: Forzamos un mensaje limpio y amigable para cualquier fallo de credenciales
+        const msgLower = result && result.message ? result.message.toLowerCase() : '';
+        
+        if (
+          msgLower.includes('credential') || 
+          msgLower.includes('password') || 
+          msgLower.includes('incorrect') || 
+          msgLower.includes('bad') ||
+          msgLower.includes('token')
+        ) {
+          setError('❌ Contraseña o correo incorrectos, intente de nuevo.');
+        } else {
+          setError(result?.message || '❌ Contraseña o correo incorrectos, intente de nuevo.');
+        }
+        setLoading(false);
       }
-    } else {
-      // Mostramos el mensaje de error que viene de Java (ej: "Credenciales incorrectas")
-      setError(result.message);
+    } catch (err) {
+      console.error("Error atrapado en el login:", err);
+      setError('❌ Contraseña o correo incorrectos, intente de nuevo.');
       setLoading(false);
     }
   };
@@ -49,8 +66,8 @@ const Login = () => {
           <div className={styles.inputGroup}>
             <label>Correo Electrónico</label>
             <input 
-              type="email" 
-              placeholder="correo@ejemplo.com" 
+              type=\"email\" 
+              placeholder=\"correo@ejemplo.com\" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required 
@@ -60,21 +77,21 @@ const Login = () => {
           <div className={styles.inputGroup}>
             <label>Contraseña</label>
             <input 
-              type="password" 
-              placeholder="••••••••" 
+              type=\"password\" 
+              placeholder=\"••••••••\" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required 
             />
           </div>
 
-          <button type="submit" className={styles.loginBtn} disabled={loading}>
+          <button type=\"submit\" className={styles.loginBtn} disabled={loading}>
             {loading ? 'Verificando...' : 'Iniciar Sesión'}
           </button>
         </form>
 
         <div className={styles.footer}>
-          <p>¿No tienes cuenta? <Link to="/registro">Regístrate aquí</Link></p>
+          <p>¿No tienes cuenta? <Link to=\"/registro\">Regístrate aquí</Link></p>
         </div>
       </div>
     </div>
